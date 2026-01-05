@@ -78,10 +78,15 @@ body {
   50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.6); }
 }
 
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
 @layer components {
-  /* Premium Buttons */
+  /* Premium Buttons - FIXED */
   .btn-premium {
-    @apply relative bg-gradient-to-r from-primary-orange via-primary-gold to-primary-orange text-primary-darkblue font-bold py-4 px-8 rounded-xl transition-all duration-500 transform hover:scale-105 active:scale-95 shadow-premium hover:shadow-premium-hover overflow-hidden;
+    @apply relative bg-gradient-to-r from-primary-orange via-primary-gold to-primary-orange text-primary-darkblue font-bold py-4 px-8 rounded-xl transition-all duration-500 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl overflow-hidden;
     background-size: 200% 100%;
     animation: gradient-shift 3s ease infinite;
   }
@@ -93,16 +98,16 @@ body {
   }
   
   .btn-secondary {
-    @apply bg-gradient-to-r from-primary-purple to-primary-blue text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 border border-primary-purple/50 hover:border-primary-blue shadow-glass;
+    @apply bg-gradient-to-r from-primary-600 to-primary-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 border border-primary-600/50 hover:border-primary-700 shadow-lg;
   }
   
   .btn-danger {
-    @apply bg-gradient-to-r from-red-600 to-red-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sos hover:shadow-red-500/50;
+    @apply bg-gradient-to-r from-red-600 to-red-500 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-red-500/50;
   }
   
   /* Premium Cards */
   .card-premium {
-    @apply relative bg-gradient-to-br from-primary-darkblue/90 via-primary-blue/70 to-primary-purple/90 backdrop-blur-xl border border-primary-gold/30 rounded-2xl shadow-premium overflow-hidden;
+    @apply relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-purple backdrop-blur-xl border border-primary-gold/30 rounded-2xl shadow-lg overflow-hidden;
   }
   
   .card-premium::before {
@@ -112,7 +117,7 @@ body {
   }
   
   .card-glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-glass hover:shadow-premium transition-all duration-500 hover:border-primary-gold/50;
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:border-primary-gold/50;
   }
   
   /* Input Fields */
@@ -121,7 +126,7 @@ body {
   }
   
   .input-premium:focus {
-    @apply shadow-premium border-primary-orange/50;
+    @apply shadow-lg border-primary-orange/50;
   }
   
   /* Loading Spinners */
@@ -142,11 +147,11 @@ body {
   
   /* Navigation Items */
   .nav-item {
-    @apply px-6 py-3 rounded-xl transition-all duration-300 hover:bg-white/10 hover:shadow-glass;
+    @apply px-6 py-3 rounded-xl transition-all duration-300 hover:bg-white/10 hover:shadow-lg;
   }
   
   .nav-item-active {
-    @apply bg-gradient-to-r from-primary-orange/20 to-primary-gold/20 border border-primary-gold/30 shadow-glass;
+    @apply bg-gradient-to-r from-primary-orange/20 to-primary-gold/20 border border-primary-gold/30 shadow-lg;
   }
   
   /* Stats Cards */
@@ -156,13 +161,13 @@ body {
   
   /* SOS Button */
   .sos-button {
-    @apply w-64 h-64 rounded-full bg-gradient-to-br from-red-600 to-red-500 shadow-sos hover:shadow-red-500/70 transition-all duration-300 transform hover:scale-105 active:scale-95;
+    @apply w-64 h-64 rounded-full bg-gradient-to-br from-red-600 to-red-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95;
     animation: glow-pulse 2s ease-in-out infinite;
   }
   
   /* Feature Icons */
   .feature-icon {
-    @apply p-4 rounded-2xl bg-gradient-to-br from-primary-blue/20 to-primary-purple/20 border border-white/10 backdrop-blur-lg;
+    @apply p-4 rounded-2xl bg-gradient-to-br from-primary-600/20 to-primary-purple/20 border border-white/10 backdrop-blur-lg;
   }
   
   /* Progress Bars */
@@ -189,11 +194,110 @@ body {
   }
   
   .tab-active {
-    @apply bg-gradient-to-r from-primary-orange to-primary-gold text-primary-darkblue shadow-premium;
+    @apply bg-gradient-to-r from-primary-orange to-primary-gold text-primary-darkblue shadow-lg;
   }
-  
-  /* Floating Elements */
-  .float-element {
-    @apply animate-float-slow;
-  }
+}
+
+/* Ensure all interactive elements work */
+button,
+input,
+select,
+textarea,
+[role="button"],
+a {
+  cursor: pointer !important;
+}
+
+/* Ensure buttons are clickable */
+button:not([disabled]),
+[type="button"]:not([disabled]),
+[type="submit"]:not([disabled]),
+[type="reset"]:not([disabled]) {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+/* Make sure pseudo-elements don't block clicks */
+button::before,
+button::after,
+[type="button"]::before,
+[type="button"]::after,
+[type="submit"]::before,
+[type="submit"]::after {
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* URGENT BUTTON FIXES - Force all buttons to work */
+* {
+  pointer-events: auto !important;
+}
+
+button,
+input[type="button"],
+input[type="submit"], 
+input[type="reset"],
+[role="button"] {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  position: relative !important;
+  z-index: 10000 !important;
+  user-select: auto !important;
+  -webkit-user-select: auto !important;
+}
+
+/* Override any motion.button styles */
+[data-framer-motion-component] {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Remove any pseudo-element blockers */
+*::before,
+*::after {
+  pointer-events: none !important;
+}
+
+/* Emergency override for any disabled-looking buttons that aren't actually disabled */
+button:not([disabled]) {
+  opacity: 1 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+/* URGENT BUTTON FIXES - Force all buttons to work */
+* {
+  pointer-events: auto !important;
+}
+
+button,
+input[type="button"],
+input[type="submit"], 
+input[type="reset"],
+[role="button"] {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  position: relative !important;
+  z-index: 10000 !important;
+  user-select: auto !important;
+  -webkit-user-select: auto !important;
+}
+
+/* Override any motion.button styles */
+[data-framer-motion-component] {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* Remove any pseudo-element blockers */
+*::before,
+*::after {
+  pointer-events: none !important;
+}
+
+/* Emergency override for any disabled-looking buttons that aren't actually disabled */
+button:not([disabled]) {
+  opacity: 1 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }

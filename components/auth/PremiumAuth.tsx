@@ -19,13 +19,11 @@ import {
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
 import ForgotPassword from './ForgotPassword'
-import { useLanguage } from '../providers/LanguageProvider'
 
 type AuthView = 'login' | 'signup' | 'forgot'
 
 export default function PremiumAuth() {
   const [authView, setAuthView] = useState<AuthView>('login')
-  const { t } = useLanguage()
 
   const features = [
     { icon: Shield, label: 'AI Safety Alerts', desc: 'Real-time accident prevention' },
@@ -67,7 +65,7 @@ export default function PremiumAuth() {
                   className="absolute -inset-6 rounded-full border-4 border-primary-orange/20"
                 />
                 <div className="relative w-32 h-32 rounded-full border-8 border-primary-gold border-t-primary-orange animate-spin-slow">
-                  <div className="absolute inset-4 rounded-full bg-gradient-to-br from-primary-blue to-primary-purple flex items-center justify-center">
+                  <div className="absolute inset-4 rounded-full bg-gradient-to-br from-primary-600 to-primary-purple flex items-center justify-center">
                     <Navigation className="w-16 h-16 text-white" />
                   </div>
                 </div>
@@ -94,7 +92,7 @@ export default function PremiumAuth() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + index * 0.1 }}
-                className="feature-icon"
+                className="p-4 rounded-2xl bg-gradient-to-br from-primary-600/20 to-primary-purple/20 border border-white/10 backdrop-blur-lg"
               >
                 <div className="flex items-start gap-3">
                   <div className="p-2 rounded-lg bg-gradient-to-br from-primary-orange/20 to-primary-gold/20">
@@ -119,7 +117,7 @@ export default function PremiumAuth() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.6 + index * 0.1 }}
-                  className="stat-card"
+                  className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 backdrop-blur-lg"
                 >
                   <div className="text-center">
                     <Icon className={`w-8 h-8 mx-auto mb-2 ${stat.color}`} />
@@ -158,7 +156,7 @@ export default function PremiumAuth() {
           </div>
 
           {/* Government Partnership */}
-          <div className="card-glass p-6">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:border-primary-gold/50 p-6">
             <div className="flex items-center gap-3 mb-4">
               <Shield className="w-8 h-8 text-primary-gold" />
               <div>

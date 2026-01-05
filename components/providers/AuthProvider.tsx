@@ -1,6 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import Cookies from 'js-cookie'
 
 interface User {
   id: string
@@ -38,9 +39,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const storedUser = localStorage.getItem('njiasafe-user')
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser))
+        const parsedUser = JSON.parse(storedUser)
+        setUser(parsedUser)
+        // Also set cookie for middleware
+        Cookies.set('token', parsedUser.id, { expires: 7 })
       } catch (error) {
         localStorage.removeItem('njiasafe-user')
+        Cookies.remove('token')
       }
     }
     setIsLoading(false)
@@ -63,6 +68,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       setUser(mockUser)
       localStorage.setItem('njiasafe-user', JSON.stringify(mockUser))
+      // Set cookie for middleware
+      Cookies.set('token', mockUser.id, { expires: 7 })
     } catch (error) {
       throw new Error('Login failed')
     } finally {
@@ -87,6 +94,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       setUser(mockUser)
       localStorage.setItem('njiasafe-user', JSON.stringify(mockUser))
+      // Set cookie for middleware
+      Cookies.set('token', mockUser.id, { expires: 7 })
     } catch (error) {
       throw new Error('Signup failed')
     } finally {
@@ -97,6 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null)
     localStorage.removeItem('njiasafe-user')
+    // Remove cookie
+    Cookies.remove('token')
   }
 
   const updateUser = (updates: Partial<User>) => {

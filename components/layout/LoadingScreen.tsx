@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Navigation, Shield, Zap, Users, Car, Globe, MapPin } from 'lucide-react'
+import { Navigation, Shield, Zap, Users, Car, Globe, MapPin, Code } from 'lucide-react'
 
 export default function LoadingScreen() {
   return (
@@ -31,48 +31,40 @@ export default function LoadingScreen() {
         ))}
       </div>
 
-      {/* Main Logo */}
+      {/* Main Logo - CIRCULAR VERSION */}
       <motion.div
         initial={{ scale: 0, rotate: -180 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ duration: 1, type: 'spring' }}
-        className="relative mb-12"
+        className="relative mb-8 sm:mb-12"
       >
-        <div className="relative w-64 h-64">
-          {/* Outer Rings */}
+        <div className="relative w-48 h-48 sm:w-64 sm:h-64">
+          {/* Outer Rotating Ring */}
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-0 rounded-full border-8 border-transparent border-t-primary-orange border-r-primary-gold border-b-primary-purple border-l-primary-blue"
+            className="absolute -inset-6 sm:-inset-8 rounded-full border-4 border-primary-orange/20"
           />
           
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-8 rounded-full border-6 border-transparent border-t-primary-gold border-r-primary-purple border-b-primary-blue border-l-primary-orange"
-          />
-          
-          {/* Middle Ring */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-16 rounded-full border-4 border-transparent border-t-primary-purple border-r-primary-blue border-b-primary-orange border-l-primary-gold"
-          />
-          
-          {/* Center Logo */}
-          <div className="absolute inset-24 rounded-full bg-gradient-to-br from-primary-blue to-primary-purple flex items-center justify-center">
-            <div className="relative w-32 h-32">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary-orange to-primary-gold animate-ping opacity-20" />
-              <div className="absolute inset-4 rounded-full bg-gradient-to-br from-primary-blue to-primary-purple flex items-center justify-center">
-                <Navigation className="w-16 h-16 text-white" />
-              </div>
+          {/* Circular Spinning Logo (like profile picture) */}
+          <div className="relative w-48 h-48 sm:w-64 sm:h-64 rounded-full border-8 border-primary-gold border-t-primary-orange animate-spin-slow">
+            {/* Inner Gradient Circle */}
+            <div className="absolute inset-6 sm:inset-8 rounded-full bg-gradient-to-br from-primary-600 to-primary-purple flex items-center justify-center">
+              {/* Navigation Icon with Pulse */}
+              <motion.div
+                animate={{ scale: [1, 1.1, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-primary-orange/20 to-primary-gold/20 flex items-center justify-center"
+              >
+                <Navigation className="w-16 h-16 sm:w-20 sm:h-20 text-white" />
+              </motion.div>
             </div>
           </div>
           
-          {/* Floating Icons */}
+          {/* Floating Icons Around Circle */}
           {[Shield, Car, MapPin, Users, Zap, Globe].map((Icon, index) => {
             const angle = (index * 60) * (Math.PI / 180)
-            const radius = 120
+            const radius = 140 // Increased radius for better positioning
             const x = radius * Math.cos(angle)
             const y = radius * Math.sin(angle)
             
@@ -96,11 +88,24 @@ export default function LoadingScreen() {
                 }}
               >
                 <div className="p-3 rounded-full bg-gradient-to-br from-primary-orange to-primary-gold shadow-lg">
-                  <Icon className="w-6 h-6 text-primary-darkblue" />
+                  <Icon className="w-6 h-6 text-primary-950" />
                 </div>
               </motion.div>
             )
           })}
+          
+          {/* Pulsing Outer Circle */}
+          <motion.div
+            className="absolute inset-0 rounded-full border-2 border-primary-gold/30"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.5, 0, 0.5],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+            }}
+          />
         </div>
       </motion.div>
 
@@ -109,17 +114,17 @@ export default function LoadingScreen() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="text-center mb-8"
+        className="text-center mb-6 sm:mb-8"
       >
-        <h1 className="text-6xl font-bold text-gradient-premium mb-4">
+        <h1 className="text-4xl sm:text-6xl font-bold text-gradient-premium mb-3 sm:mb-4">
           NjiaSafe
         </h1>
-        <p className="text-2xl text-gray-300">Premium Smart Navigation</p>
-        <p className="text-lg text-gray-400 mt-2">Built for Africa</p>
+        <p className="text-xl sm:text-2xl text-gray-300">Premium Smart Navigation</p>
+        <p className="text-lg sm:text-lg text-gray-400 mt-1 sm:mt-2">Built for Africa</p>
       </motion.div>
 
       {/* Loading Progress */}
-      <div className="w-96 mb-8">
+      <div className="w-64 sm:w-96 mb-6 sm:mb-8">
         <div className="h-3 bg-white/10 rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-primary-orange via-primary-gold to-primary-orange"
@@ -137,8 +142,8 @@ export default function LoadingScreen() {
         transition={{ delay: 1 }}
         className="text-center"
       >
-        <p className="text-gray-400 mb-4">Initializing Premium Features</p>
-        <div className="flex flex-wrap justify-center gap-3">
+        <p className="text-gray-400 mb-3 sm:mb-4">Initializing Premium Features</p>
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
           {[
             { text: 'AI Navigation', color: 'bg-blue-500/20 text-blue-400' },
             { text: 'V2V System', color: 'bg-purple-500/20 text-purple-400' },
@@ -151,7 +156,7 @@ export default function LoadingScreen() {
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.2 + index * 0.1 }}
-              className={`px-4 py-2 rounded-full text-sm font-medium ${feature.color}`}
+              className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium ${feature.color}`}
             >
               {feature.text}
             </motion.span>
@@ -164,16 +169,19 @@ export default function LoadingScreen() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8 }}
-        className="absolute bottom-8 left-0 right-0 text-center"
+        className="absolute bottom-4 sm:bottom-8 left-0 right-0 text-center"
       >
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-1 sm:gap-2">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-sm text-gray-400">Connecting to African Road Network</span>
+            <span className="text-xs sm:text-sm text-gray-400">Connecting to African Road Network</span>
           </div>
-          <p className="text-xs text-gray-500">
-            Using real-time data to save lives across Africa
-          </p>
+          <div className="flex items-center gap-2">
+            <Code className="w-3 h-3 sm:w-4 sm:h-4 text-primary-gold" />
+            <p className="text-xs text-gray-500">
+              Developed by <span className="text-primary-gold font-semibold">Brian Nyarienya</span>
+            </p>
+          </div>
         </div>
       </motion.div>
     </div>
