@@ -358,3 +358,621 @@ img[src*="logo"], .logo-image {
 .fixed.inset-0.z-\[9999\] {
   z-index: 9999 !important;
 }
+
+/* ===== AI ASSISTANT LOADING STYLES ===== */
+
+/* Neural network pulse */
+@keyframes neural-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+.neural-pulse {
+  animation: neural-pulse 2s ease-in-out infinite;
+}
+
+/* AI typing cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.ai-cursor {
+  animation: blink 1s infinite;
+}
+
+/* Data stream animation */
+@keyframes data-stream {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.data-stream {
+  animation: data-stream 3s linear infinite;
+}
+
+/* AI badge glow */
+@keyframes ai-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+  }
+}
+
+.ai-badge {
+  animation: ai-glow 2s ease-in-out infinite;
+}
+
+/* Neural network connections */
+.neural-connection {
+  position: relative;
+}
+
+.neural-connection::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  animation: neural-pulse 3s ease-in-out infinite;
+}
+
+/* AI module activation */
+@keyframes module-activate {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.module-active {
+  animation: module-activate 0.3s ease-out;
+}
+
+/* Processing waves */
+@keyframes processing-wave {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+}
+
+.processing-wave {
+  animation: processing-wave 2s ease-in-out infinite;
+}
+
+/* AI Loading specific */
+.ai-loading-screen {
+  background: linear-gradient(45deg, 
+    rgba(15, 23, 42, 0.95) 0%,
+    rgba(30, 41, 59, 0.95) 50%,
+    rgba(15, 23, 42, 0.95) 100%
+  );
+}
+
+/* Ensure AI loading screen stays on top */
+.fixed.inset-0.z-\[9999\] {
+  z-index: 9999 !important;
+}
+
+/* Smooth transitions for AI elements */
+.ai-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Neural network grid */
+.neural-grid {
+  background-image: 
+    linear-gradient(rgba(168, 85, 247, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* AI Response indicator */
+.ai-responding {
+  position: relative;
+}
+
+.ai-responding::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(45deg, #a855f7, #ec4899, #3b82f6);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: ai-glow 2s ease-in-out infinite;
+}
+
+/* Force circular logo for AI */
+.ai-logo-container img {
+  border-radius: 50% !important;
+  filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.3)) !important;
+}
+
+/* Responsive AI layout */
+@media (max-width: 1024px) {
+  .ai-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .ai-module {
+    padding: 1rem !important;
+  }
+}
+
+/* ===== DASHBOARD LOADING ANIMATIONS ===== */
+
+@keyframes component-load {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.component-loading {
+  animation: component-load 0.3s ease-out;
+}
+
+/* Social icon hover effects */
+.social-icon-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.social-icon-hover:hover {
+  transform: translateY(-3px) rotate(5deg);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Dashboard grid animation */
+.dashboard-grid-loader {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-pulse 3s ease-in-out infinite;
+}
+
+@keyframes grid-pulse {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* Progress wave effect */
+.progress-wave {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-wave::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: wave 1.5s infinite;
+}
+
+@keyframes wave {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Dashboard loading specific */
+.dashboard-loading-screen {
+  background: linear-gradient(135deg, 
+    rgba(15, 23, 42, 0.98) 0%,
+    rgba(30, 41, 59, 0.98) 50%,
+    rgba(15, 23, 42, 0.98) 100%
+  );
+}
+
+/* Ensure loading screen is above everything */
+.fixed.inset-0.z-\[9999\] {
+  z-index: 9999 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .loading-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .loading-step-card {
+    padding: 1.5rem !important;
+  }
+}
+
+/* ===== LOADING SCREEN SPECIFIC FIXES ===== */
+
+/* Fix for shimmer animation conflict */
+@keyframes loading-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.loading-shimmer {
+  animation: loading-shimmer 2s infinite;
+}
+
+/* Circular logo fixes for loading screen */
+.loading-logo-container {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.loading-logo-container img {
+  border-radius: 50% !important;
+  -webkit-mask-image: radial-gradient(circle, white 100%, transparent 100%) !important;
+  mask-image: radial-gradient(circle, white 100%, transparent 100%) !important;
+}
+
+/* Loading step animations */
+.loading-step {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.loading-step::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateY(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
+  }
+}
+
+/* Dashboard component loading animations */
+@keyframes component-pulse {
+  0%, 100% {
+    border-color: rgba(75, 85, 99, 0.5);
+  }
+  50% {
+    border-color: rgba(249, 115, 22, 0.5);
+  }
+}
+
+.component-loading-pulse {
+  animation: component-pulse 2s ease-in-out infinite;
+}
+
+/* Loading background effects */
+.loading-bg-circuit {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(249, 115, 22, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+  animation: bg-float 20s ease-in-out infinite;
+}
+
+@keyframes bg-float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-10px, -10px) rotate(1deg);
+  }
+  50% {
+    transform: translate(0, -20px) rotate(0deg);
+  }
+  75% {
+    transform: translate(10px, -10px) rotate(-1deg);
+  }
+}
+
+/* Loading screen social icons */
+.loading-social-icon {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.loading-social-icon::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: inherit;
+  filter: blur(8px);
+  opacity: 0.5;
+  z-index: -1;
+  animation: social-glow 2s ease-in-out infinite;
+}
+
+@keyframes social-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+/* Loading progress bar specific */
+.loading-progress-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-progress-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  animation: progress-shine 3s ease-in-out infinite;
+}
+
+@keyframes progress-shine {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+/* Fix for z-index conflicts in loading screen */
+#__next > div:first-child.fixed {
+  z-index: 9999 !important;
+}
+
+/* Loading screen text animations */
+.loading-text-gradient {
+  background: linear-gradient(90deg, #F97316, #FBBF24, #8B5CF6, #3B82F6, #F97316);
+  background-size: 300% 100%;
+  animation: gradient-flow 3s ease infinite;
+}
+
+@keyframes gradient-flow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Loading screen card effects */
+.loading-card {
+  background: rgba(31, 41, 55, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(75, 85, 99, 0.3);
+  transition: all 0.3s ease;
+}
+
+.loading-card:hover {
+  border-color: rgba(249, 115, 22, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Loading screen stats animation */
+.loading-stat {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-stat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: stat-shine 2s infinite;
+}
+
+@keyframes stat-shine {
+  100% {
+    left: 100%;
+  }
+}
+
+/* Ensure loading screen works on all devices */
+@media (max-width: 640px) {
+  .loading-screen-content {
+    padding: 1rem !important;
+  }
+  
+  .loading-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .loading-features-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .loading-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Fix for Tailwind classes in loading screen */
+.loading-screen {
+  background: linear-gradient(135deg, 
+    rgba(15, 23, 42, 0.98) 0%,
+    rgba(30, 41, 59, 0.98) 50%,
+    rgba(15, 23, 42, 0.98) 100%
+  );
+}
+
+/* Loading screen backdrop blur fix */
+.loading-backdrop {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Ensure loading screen components are visible */
+.loading-component {
+  will-change: transform, opacity;
+}
+
+/* Loading screen performance optimizations */
+.loading-screen * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== STATIC LOGO FIXES ===== */
+
+/* Remove any logo rotation animations */
+.logo-container img,
+.loading-logo-container img,
+.ai-logo-container img,
+.dashboard-logo-container img {
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Static logo with subtle effects */
+.static-logo {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.static-logo:hover {
+  filter: brightness(1.1);
+}
+
+/* Logo status indicator */
+.logo-status {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--gradient-start);
+  background: var(--accent-orange);
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Logo container with static design */
+.static-logo-container {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(249, 115, 22, 0.3);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.static-logo-container:hover {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.2);
+}
+
+/* Loading screen logo specific */
+.loading-screen-logo {
+  animation: none !important;
+  transform: none !important;
+  filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.2));
+}
+
+/* Ensure no rotation on any logo elements */
+*[class*="logo"] {
+  animation: none !important;
+}
+
+/* Fix for any inherited animations */
+img[src*="logo"],
+[class*="logo"] img,
+.logo-image {
+  animation: none !important;
+  transform: none !important;
+}

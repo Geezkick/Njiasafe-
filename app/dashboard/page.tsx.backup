@@ -1,0 +1,479 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import { 
+  Navigation, 
+  Shield, 
+  Zap, 
+  Users, 
+  Bell, 
+  Settings, 
+  User, 
+  LogOut,
+  Car,
+  Bike,
+  User as PedestrianIcon,
+  BarChart3,
+  MapPin,
+  AlertTriangle,
+  Heart,
+  Clock,
+  Crown,
+  TrendingUp,
+  Brain,
+  BatteryCharging,
+  Map,
+  Route,
+  Star,
+  CheckCircle,
+  MessageSquare,
+  Wifi,
+  Satellite
+} from 'lucide-react'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import PremiumLayout from '@/components/layout/PremiumLayout'
+import SafeButton from '@/components/ui/SafeButton'
+import { useAuth } from '@/components/providers/AuthProvider'
+import { toast } from 'sonner'
+
+export default function Dashboard() {
+  const [activeMode, setActiveMode] = useState('drive')
+  const [notificationCount] = useState(3)
+  const router = useRouter()
+  const { logout } = useAuth()
+
+  const quickStats = [
+    { icon: MapPin, label: 'Distance Today', value: '42.5 km', change: '+12%', color: 'text-blue-400' },
+    { icon: Clock, label: 'Time Saved', value: '1.5 hrs', change: 'Smart routing', color: 'text-green-400' },
+    { icon: Heart, label: 'Safety Score', value: '98%', change: 'Excellent', color: 'text-purple-400' },
+    { icon: Users, label: 'V2V Connected', value: '42', change: 'Vehicles nearby', color: 'text-orange-400' },
+  ]
+
+  // UPDATED: Added all new features to quick actions
+  const quickActions = [
+    { icon: Brain, label: 'AI Assistant', action: () => router.push('/ai-assistant') },
+    { icon: BatteryCharging, label: 'EV Charging', action: () => router.push('/ev-charging') },
+    { icon: Map, label: 'Smart Maps', action: () => router.push('/smart-maps') },
+    { icon: Shield, label: 'Safe Routes', action: () => router.push('/safer-routes') },
+    { icon: Route, label: 'Short Routes', action: () => router.push('/shortest-routes') },
+    { icon: Navigation, label: 'Navigation', action: () => router.push('/navigation') },
+    { icon: BarChart3, label: 'Analytics', action: () => router.push('/analytics') },
+    { icon: Users, label: 'Community', action: () => router.push('/community') },
+  ]
+
+  // NEW: Feature cards for the added features
+  const featureCards = [
+    {
+      title: 'AI Assistant',
+      description: 'Smart navigation with voice commands',
+      icon: Brain,
+      color: 'from-purple-500 to-pink-500',
+      stats: '99.7% Accuracy',
+      link: '/ai-assistant'
+    },
+    {
+      title: 'EV Charging Map',
+      description: '4,450+ charging stations',
+      icon: BatteryCharging,
+      color: 'from-green-500 to-emerald-500',
+      stats: '87% Available',
+      link: '/ev-charging'
+    },
+    {
+      title: 'Smart Maps',
+      description: 'Live traffic & weather layers',
+      icon: Map,
+      color: 'from-blue-500 to-cyan-500',
+      stats: '25+ Cities',
+      link: '/smart-maps'
+    },
+    {
+      title: 'Safe Routes',
+      description: 'Crime-free pathfinding',
+      icon: Shield,
+      color: 'from-red-500 to-orange-500',
+      stats: '98% Safety Score',
+      link: '/safer-routes'
+    },
+    {
+      title: 'Short Routes',
+      description: 'AI-optimized travel time',
+      icon: Route,
+      color: 'from-indigo-500 to-blue-500',
+      stats: '30% Faster',
+      link: '/shortest-routes'
+    },
+    {
+      title: 'V2V System',
+      description: 'Vehicle-to-vehicle alerts',
+      icon: Wifi,
+      color: 'from-yellow-500 to-orange-500',
+      stats: '42 Connected',
+      link: '/community'
+    }
+  ]
+
+  const handleLogout = () => {
+    logout()
+    toast.success('Logged out successfully')
+    router.push('/')
+  }
+
+  const handleUpgrade = () => {
+    console.log('Upgrade clicked')
+    router.push('/subscription')
+    toast.info('Redirecting to subscription page')
+  }
+
+  const handleProfile = () => {
+    console.log('Profile clicked')
+    router.push('/profile')
+  }
+
+  const handleSOS = () => {
+    console.log('SOS Emergency clicked!')
+    toast.error('🚨 EMERGENCY SOS ACTIVATED! Authorities notified.', {
+      duration: 5000,
+      icon: '🚨'
+    })
+    // In real app, this would trigger actual emergency services
+  }
+
+  const handleServiceAlert = (service: string) => {
+    console.log(`${service} alerted`)
+    toast.warning(`${service} has been notified of your location`, {
+      icon: '📞'
+    })
+  }
+
+  const handleNavigationMode = (mode: string) => {
+    console.log(`Navigation mode changed to: ${mode}`)
+    setActiveMode(mode)
+    toast.info(`Navigation mode set to: ${mode.charAt(0).toUpperCase() + mode.slice(1)}`)
+  }
+
+  const handleFeatureClick = (feature: any) => {
+    router.push(feature.link)
+    toast.info(`Opening ${feature.title}...`)
+  }
+
+  return (
+    <PremiumLayout showHeader={true} showFooter={false}>
+      <div className="space-y-8">
+        {/* Welcome Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-purple backdrop-blur-xl border border-primary-gold/30 rounded-2xl shadow-lg overflow-hidden p-8"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">
+                Welcome back, <span className="text-gradient-premium">Brian</span>! 👋
+              </h1>
+              <p className="text-gray-300">
+                Your safety score is <span className="text-green-400 font-bold">98%</span> - Excellent driving!
+              </p>
+              <div className="flex items-center gap-4 mt-4 text-sm text-gray-400">
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  <span>AI Assistant: Active</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  <span>EV Charging: Online</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  <span>Smart Maps: Live</span>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <SafeButton
+                onClick={handleProfile}
+                variant="secondary"
+                className="flex items-center justify-center gap-2 px-6 py-3"
+              >
+                <User className="w-5 h-5" />
+                <span>View Profile</span>
+              </SafeButton>
+              <SafeButton
+                onClick={handleUpgrade}
+                variant="premium"
+                className="flex items-center justify-center gap-2 px-6 py-3"
+              >
+                <Crown className="w-5 h-5" />
+                <span>Premium</span>
+              </SafeButton>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {quickStats.map((stat, index) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:border-primary-gold/50 p-4 sm:p-6"
+            >
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <stat.icon className={`w-6 h-6 sm:w-8 sm:h-8 ${stat.color}`} />
+                <span className="text-xs sm:text-sm text-gray-400">{stat.change}</span>
+              </div>
+              <div className="text-xl sm:text-2xl font-bold mb-1">{stat.value}</div>
+              <div className="text-xs sm:text-sm text-gray-400">{stat.label}</div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* NEW: Feature Cards Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:border-primary-gold/50 p-6"
+        >
+          <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <Star className="w-6 h-6 text-primary-gold" />
+            Premium Features
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {featureCards.map((feature, index) => {
+              const Icon = feature.icon
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 + index * 0.1 }}
+                  className="group cursor-pointer"
+                  onClick={() => handleFeatureClick(feature)}
+                >
+                  <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-primary-gold/50 transition-all duration-300 hover:scale-[1.02] h-full">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className={`p-3 rounded-xl bg-gradient-to-br ${feature.color}`}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <span className="px-3 py-1 rounded-full bg-white/10 text-xs font-medium">
+                        {feature.stats}
+                      </span>
+                    </div>
+                    <h4 className="text-lg font-bold text-white mb-2">{feature.title}</h4>
+                    <p className="text-gray-400 text-sm mb-4">{feature.description}</p>
+                    <div className="flex items-center text-primary-gold text-sm">
+                      <span>Explore feature</span>
+                      <span className="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+        </motion.div>
+
+        {/* Navigation & SOS */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+          {/* Navigation Modes */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-purple backdrop-blur-xl border border-primary-gold/30 rounded-2xl shadow-lg overflow-hidden p-4 sm:p-6"
+          >
+            <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2">
+              <Navigation className="w-5 h-5 text-primary-orange" />
+              Navigation Mode
+            </h3>
+            <div className="grid grid-cols-3 gap-2 sm:gap-4">
+              {[
+                { id: 'drive', label: 'Drive', icon: Car, color: 'from-blue-500 to-purple-500' },
+                { id: 'cycle', label: 'Cycle', icon: Bike, color: 'from-green-500 to-emerald-500' },
+                { id: 'pedestrian', label: 'Walk', icon: PedestrianIcon, color: 'from-orange-500 to-red-500' },
+              ].map((mode) => (
+                <button
+                  key={mode.id}
+                  onClick={() => handleNavigationMode(mode.id)}
+                  className={`p-3 sm:p-6 rounded-xl flex flex-col items-center justify-center transition-all ${
+                    activeMode === mode.id
+                      ? `bg-gradient-to-br ${mode.color} text-white shadow-lg`
+                      : 'bg-white/5 hover:bg-white/10'
+                  }`}
+                >
+                  <mode.icon className="w-6 h-6 sm:w-8 sm:h-8 mb-2 sm:mb-3" />
+                  <span className="text-xs sm:text-sm font-semibold">{mode.label}</span>
+                </button>
+              ))}
+            </div>
+            <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-white/10">
+              <div className="flex justify-between text-xs sm:text-sm mb-2">
+                <span className="text-gray-400">Current Route</span>
+                <span className="font-semibold">Nairobi to Mombasa</span>
+              </div>
+              <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-primary-orange to-primary-gold rounded-full" style={{ width: '65%' }} />
+              </div>
+              <div className="flex justify-between text-xs sm:text-sm mt-2">
+                <span>483 km</span>
+                <span className="text-green-400">6h 30m (94% safe)</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* SOS Emergency */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="relative bg-gradient-to-br from-primary-900 via-primary-800 to-primary-purple backdrop-blur-xl border border-primary-gold/30 rounded-2xl shadow-lg overflow-hidden p-4 sm:p-6"
+          >
+            <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-red-400" />
+              Emergency SOS
+            </h3>
+            <div className="flex flex-col items-center">
+              <button 
+                onClick={handleSOS}
+                className="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-gradient-to-br from-red-600 to-red-500 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 active:scale-95 flex flex-col items-center justify-center mb-6 sm:mb-8"
+              >
+                <AlertTriangle className="w-12 h-12 sm:w-16 sm:h-16 mb-3 sm:mb-4" />
+                <span className="text-xl sm:text-2xl font-bold">SOS</span>
+                <span className="text-xs sm:text-sm">Emergency Alert</span>
+              </button>
+              
+              <div className="grid grid-cols-2 gap-2 sm:gap-4 w-full">
+                {[
+                  { label: 'Police', color: 'bg-blue-500/20', icon: '👮' },
+                  { label: 'Ambulance', color: 'bg-red-500/20', icon: '🚑' },
+                  { label: 'Fire Service', color: 'bg-orange-500/20', icon: '🚒' },
+                  { label: 'Road Rescue', color: 'bg-yellow-500/20', icon: '🛣️' },
+                ].map((service) => (
+                  <button
+                    key={service.label}
+                    onClick={() => handleServiceAlert(service.label)}
+                    className={`p-3 sm:p-4 rounded-xl ${service.color} hover:opacity-80 transition-opacity`}
+                  >
+                    <div className="text-xl sm:text-2xl mb-1 sm:mb-2">{service.icon}</div>
+                    <div className="text-xs sm:text-sm">{service.label}</div>
+                  </button>
+                ))}
+              </div>
+              
+              <p className="text-xs sm:text-sm text-gray-400 mt-4 sm:mt-6 text-center">
+                Press in case of emergency to notify nearby services
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Updated Quick Actions - NOW WITH ALL FEATURES */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 hover:border-primary-gold/50 p-4 sm:p-6"
+        >
+          <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6">Quick Actions</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-4">
+            {quickActions.map((action) => (
+              <button
+                key={action.label}
+                onClick={action.action}
+                className="p-4 sm:p-6 rounded-xl bg-white/5 hover:bg-white/10 transition-colors flex flex-col items-center justify-center"
+              >
+                <action.icon className={`w-6 h-6 sm:w-8 sm:h-8 mb-2 sm:mb-3 text-primary-orange`} />
+                <span className="text-xs sm:text-sm font-medium">{action.label}</span>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Subscription Upgrade Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="bg-gradient-to-br from-primary-900 via-primary-800 to-primary-purple rounded-2xl p-6 sm:p-8 border border-primary-gold/30"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div>
+              <h3 className="text-xl sm:text-2xl font-bold mb-2 flex items-center gap-2">
+                <Crown className="w-6 h-6 text-primary-gold" />
+                Enjoying Premium?
+              </h3>
+              <p className="text-gray-300 mb-4">
+                Upgrade to access all premium features including AI routing, EV charging maps, government data, and priority support.
+              </p>
+              <div className="flex items-center gap-4 text-sm text-gray-400">
+                <div className="flex items-center gap-2">
+                  <Brain className="w-4 h-4 text-purple-400" />
+                  <span>AI Assistant</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <BatteryCharging className="w-4 h-4 text-green-400" />
+                  <span>EV Charging Map</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-red-400" />
+                  <span>Safe Routes</span>
+                </div>
+              </div>
+            </div>
+            <SafeButton
+              onClick={handleUpgrade}
+              variant="premium"
+              className="px-6 sm:px-8 py-3 sm:py-4"
+            >
+              Upgrade Now
+            </SafeButton>
+          </div>
+        </motion.div>
+
+        {/* NEW: Recent Activity */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
+        >
+          <h3 className="text-lg font-bold text-white mb-4">Recent Activity</h3>
+          <div className="space-y-3">
+            {[
+              { icon: Brain, text: 'AI Assistant suggested a faster route', time: '5 min ago', color: 'text-purple-400' },
+              { icon: BatteryCharging, text: 'EV charging station reserved', time: '1 hour ago', color: 'text-green-400' },
+              { icon: Shield, text: 'Safe route calculated to work', time: '2 hours ago', color: 'text-red-400' },
+              { icon: Map, text: 'Smart map updated with live traffic', time: '3 hours ago', color: 'text-blue-400' },
+            ].map((activity, index) => {
+              const Icon = activity.icon
+              return (
+                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30">
+                  <Icon className={`w-5 h-5 ${activity.color}`} />
+                  <div className="flex-1">
+                    <div className="text-white">{activity.text}</div>
+                    <div className="text-sm text-gray-400">{activity.time}</div>
+                  </div>
+                  <button className="text-primary-orange hover:text-primary-gold text-sm">
+                    View →
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        </motion.div>
+
+        {/* Logout Button */}
+        <div className="text-center">
+          <SafeButton
+            onClick={handleLogout}
+            variant="danger"
+            className="flex items-center gap-2 mx-auto"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </SafeButton>
+        </div>
+      </div>
+    </PremiumLayout>
+  )
+}
