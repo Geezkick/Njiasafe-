@@ -2,60 +2,32 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle } from 'lucide-react'
-import { useAuth } from '../providers/AuthProvider'
-import { useLanguage } from '../providers/LanguageProvider'
-import { toast } from 'sonner'
+import { Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react'
 
-const schema = yup.object({
-  email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-})
-
-type FormData = yup.InferType<typeof schema>
-
-interface LoginFormProps {
-  onSwitchView: (view: 'signup' | 'forgot') => void
-}
-
-export default function LoginForm({ onSwitchView }: LoginFormProps) {
+export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
-  const { login, isLoading } = useAuth()
-  const { t } = useLanguage()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>({
-    resolver: yupResolver(schema),
-  })
-
-  const onSubmit = async (data: FormData) => {
-    try {
-      await login(data.email, data.password)
-      toast.success('Login successful!')
-      reset()
-    } catch (error) {
-      toast.error('Login failed. Please check your credentials.')
-    }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false)
+      alert('Login successful! (Demo mode)')
+    }, 1500)
   }
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
       className="w-full max-w-md"
     >
-      <div className="card-premium p-8">
+      <div className="card-glass p-8">
         {/* Logo */}
         <div className="flex justify-center mb-8">
           <div className="relative">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-              className="absolute -inset-4 rounded-full border-2 border-primary-orange/30"
-            />
             <div className="w-24 h-24 rounded-full border-4 border-primary-gold border-t-primary-orange animate-spin-slow">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-primary-blue to-primary-purple rounded-full flex items-center justify-center">
@@ -68,82 +40,46 @@ export default function LoginForm({ onSwitchView }: LoginFormProps) {
 
         {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gradient mb-2">{t('welcome')}</h2>
-          <p className="text-gray-400">{t('slogan')}</p>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-primary-orange to-primary-gold bg-clip-text text-transparent mb-2">
+            Welcome Back
+          </h2>
+          <p className="text-gray-400">Login to your NjiaSafe account</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email */}
           <div>
-            <label className="block text-sm font-medium mb-2">{t('email')}</label>
+            <label className="block text-sm font-medium mb-2">Email</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
-                {...register('email')}
                 type="email"
                 className="input-field pl-12"
-                placeholder="user@example.com"
-                disabled={isLoading}
+                placeholder="Enter your email"
+                required
               />
             </div>
-            {errors.email && (
-              <p className="mt-2 text-sm text-red-400 flex items-center gap-1">
-                <AlertCircle className="w-4 h-4" />
-                {errors.email.message}
-              </p>
-            )}
           </div>
 
           {/* Password */}
           <div>
-            <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-medium">{t('password')}</label>
-              <button
-                type="button"
-                onClick={() => onSwitchView('forgot')}
-                className="text-sm text-primary-orange hover:text-primary-gold transition-colors"
-                disabled={isLoading}
-              >
-                {t('forgotPassword')}
-              </button>
-            </div>
+            <label className="block text-sm font-medium mb-2">Password</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
-                {...register('password')}
                 type={showPassword ? 'text' : 'password'}
                 className="input-field pl-12 pr-12"
-                placeholder="••••••••"
-                disabled={isLoading}
+                placeholder="Enter your password"
+                required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white disabled:opacity-50"
-                disabled={isLoading}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
-            {errors.password && (
-              <p className="mt-2 text-sm text-red-400 flex items-center gap-1">
-                <AlertCircle className="w-4 h-4" />
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-
-          {/* Remember Me */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="remember"
-              className="rounded bg-white/10 border-white/20 text-primary-orange focus:ring-primary-orange"
-              disabled={isLoading}
-            />
-            <label htmlFor="remember" className="ml-2 text-sm">
-              {t('rememberMe')}
-            </label>
           </div>
 
           {/* Submit Button */}
@@ -152,63 +88,40 @@ export default function LoginForm({ onSwitchView }: LoginFormProps) {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isLoading}
-            className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full btn-primary flex items-center justify-center gap-2"
           >
             <LogIn className="w-5 h-5" />
-            {isLoading ? 'Logging in...' : t('login')}
+            {isLoading ? 'Logging in...' : 'Login'}
           </motion.button>
         </form>
 
-        {/* Sign Up Link */}
-        <div className="mt-6 text-center">
+        {/* Links */}
+        <div className="mt-6 text-center space-y-2">
+          <a href="#" className="text-primary-orange hover:text-primary-gold text-sm">
+            Forgot Password?
+          </a>
           <p className="text-gray-400">
-            {t('noAccount')}{' '}
-            <button
-              onClick={() => onSwitchView('signup')}
-              className="text-primary-orange hover:text-primary-gold font-medium transition-colors"
-              disabled={isLoading}
-            >
-              {t('signup')}
-            </button>
+            Don't have an account?{' '}
+            <a href="#" className="text-primary-orange hover:text-primary-gold font-medium">
+              Sign up
+            </a>
           </p>
         </div>
 
         {/* Quick Features */}
         <div className="mt-8 pt-6 border-t border-white/10">
-          <p className="text-sm text-gray-400 text-center mb-4">Quick Access Features</p>
-          <div className="flex justify-center gap-4">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-3 rounded-xl bg-primary-blue/50 hover:bg-primary-blue border border-primary-blue/50 transition-colors"
-              disabled={isLoading}
-            >
-              <span className="text-sm font-semibold">V2V</span>
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 transition-colors"
-              disabled={isLoading}
-            >
-              <span className="text-sm font-semibold">SOS</span>
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-3 rounded-xl bg-primary-purple/50 hover:bg-primary-purple border border-primary-purple/50 transition-colors"
-              disabled={isLoading}
-            >
-              <span className="text-sm font-semibold">AI</span>
-            </motion.button>
+          <div className="text-center">
+            <p className="text-sm text-gray-400 mb-4">Quick Access Features</p>
+            <div className="flex justify-center gap-4">
+              <button className="p-3 rounded-xl bg-primary-blue/50 hover:bg-primary-blue border border-primary-blue/50">
+                <span className="text-sm font-semibold">V2V</span>
+              </button>
+              <button className="p-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/30">
+                <span className="text-sm font-semibold">SOS</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Footer */}
-      <div className="mt-6 text-center text-sm text-gray-500">
-        <p>By logging in, you agree to our Terms of Service and Privacy Policy</p>
-        <p className="mt-2">© 2024 NjiaSafe. {t('slogan')}</p>
       </div>
     </motion.div>
   )
