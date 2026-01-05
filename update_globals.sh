@@ -1,3 +1,10 @@
+#!/bin/bash
+
+# Backup current file
+cp app/globals.css app/globals.css.backup.$(date +%s)
+
+# Create updated file with circular mask added
+cat > app/globals.css << 'CSS'
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -46,6 +53,31 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, var(--accent-gold), var(--accent-orange));
   box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+}
+
+/* Circular Mask for Logo */
+.circular-mask {
+  mask-image: radial-gradient(circle, white 100%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle, white 100%, transparent 100%);
+  mask-size: cover;
+  -webkit-mask-size: cover;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+/* For Next.js Image components inside circular masks */
+.circular-mask img,
+.circular-mask > div {
+  -webkit-mask-image: radial-gradient(circle, white 100%, transparent 100%);
+  mask-image: radial-gradient(circle, white 100%, transparent 100%);
+}
+
+/* Alternative: Simple circular class for images */
+.circular-logo {
+  border-radius: 50%;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(circle, white 100%, transparent 100%);
+  mask-image: radial-gradient(circle, white 100%, transparent 100%);
 }
 
 /* Selection */
@@ -301,60 +333,7 @@ button:not([disabled]) {
   cursor: pointer !important;
   pointer-events: auto !important;
 }
+CSS
 
-/* ===== LOADING SCREEN ENHANCEMENTS ===== */
-
-/* Shimmer animation for progress bar */
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.animate-shimmer {
-  animation: shimmer 2s infinite;
-}
-
-/* Perfect circular mask for images */
-.circular-image-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.circular-image-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
-/* Force circular images with multiple fallbacks */
-img[src*="logo"], .logo-image {
-  border-radius: 50% !important;
-  -webkit-mask-image: radial-gradient(circle, white 100%, transparent 100%) !important;
-  mask-image: radial-gradient(circle, white 100%, transparent 100%) !important;
-}
-
-/* Social icon hover effects */
-.social-platform {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.social-platform:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-/* Loading screen specific */
-#__next > div:first-child {
-  position: fixed !important;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-/* Ensure loading screen is above everything */
-.fixed.inset-0.z-\[9999\] {
-  z-index: 9999 !important;
-}
+echo "✅ Updated app/globals.css with circular mask styles!"
+echo "📁 Backup created: app/globals.css.backup.*"
