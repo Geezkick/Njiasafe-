@@ -16,18 +16,21 @@ import {
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import LanguageSwitcher from '../ui/LanguageSwitcher'
+import { useLanguage } from '../providers/LanguageProvider'
+import Image from 'next/image'
 
 export default function PremiumHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [notificationCount] = useState(3)
   const router = useRouter()
+  const { t } = useLanguage()
 
   const navItems = [
-    { label: 'Dashboard', icon: Navigation, path: '/dashboard' },
-    { label: 'Safety', icon: Shield, path: '/safety' },
-    { label: 'V2V', icon: Zap, path: '/v2v' },
-    { label: 'Analytics', icon: Globe, path: '/analytics' },
-    { label: 'Community', icon: User, path: '/community' },
+    { label: t('dashboard'), icon: Navigation, path: '/dashboard' },
+    { label: t('safety'), icon: Shield, path: '/safety' },
+    { label: t('v2v'), icon: Zap, path: '/v2v' },
+    { label: t('analytics'), icon: Globe, path: '/analytics' },
+    { label: t('community'), icon: User, path: '/community' },
   ]
 
   const handleNavClick = (path: string, label: string) => {
@@ -59,7 +62,7 @@ export default function PremiumHeader() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo - CIRCULAR VERSION matching LoadingScreen */}
+          {/* Logo - CIRCULAR with logo.png */}
           <div className="flex items-center gap-4">
             <button 
               onClick={() => router.push('/dashboard')}
@@ -75,10 +78,17 @@ export default function PremiumHeader() {
                 
                 {/* Circular logo container */}
                 <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full border-4 border-primary-gold border-t-primary-orange animate-spin-slow">
-                  {/* Inner gradient circle */}
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary-600 to-primary-purple flex items-center justify-center">
-                    {/* Navigation icon */}
-                    <Navigation className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                  {/* Inner circle with logo.png */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary-600 to-primary-purple flex items-center justify-center overflow-hidden">
+                    <div className="relative w-8 h-8 sm:w-10 sm:h-10">
+                      <Image
+                        src="/logo.png"
+                        alt="NjiaSafe Logo"
+                        fill
+                        className="object-contain p-1"
+                        sizes="(max-width: 640px) 32px, 40px"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -88,7 +98,7 @@ export default function PremiumHeader() {
                     NjiaSafe
                   </span>
                 </h1>
-                <p className="text-xs sm:text-sm text-gray-400">Premium Navigation</p>
+                <p className="text-xs sm:text-sm text-gray-400">{t('premium')} Navigation</p>
               </div>
             </button>
           </div>
@@ -125,6 +135,7 @@ export default function PremiumHeader() {
               <button
                 onClick={handleNotifications}
                 className="relative p-2 sm:p-3 rounded-xl bg-white/5 backdrop-blur-lg border border-white/10"
+                title={t('notifications')}
               >
                 <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
                 {notificationCount > 0 && (
@@ -141,7 +152,7 @@ export default function PremiumHeader() {
               className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-gradient-to-r from-primary-gold to-primary-orange text-primary-950 font-bold"
             >
               <Crown className="w-4 h-4" />
-              <span className="text-sm">PREMIUM</span>
+              <span className="text-sm">{t('premium')}</span>
             </motion.div>
 
             {/* Settings */}
@@ -149,6 +160,7 @@ export default function PremiumHeader() {
               <button
                 onClick={handleSettings}
                 className="p-2 sm:p-3 rounded-xl bg-white/5 backdrop-blur-lg border border-white/10"
+                title={t('settings')}
               >
                 <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
@@ -159,6 +171,7 @@ export default function PremiumHeader() {
               <button
                 onClick={handleProfile}
                 className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-primary-orange to-primary-gold flex items-center justify-center"
+                title={t('profile')}
               >
                 <User className="w-5 h-5 sm:w-6 sm:h-6 text-primary-950" />
               </button>

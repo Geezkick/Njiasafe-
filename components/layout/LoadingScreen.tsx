@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Navigation, Shield, Zap, Users, Car, Globe, MapPin, Code } from 'lucide-react'
+import { Shield, Zap, Users, Car, Globe, MapPin, Code } from 'lucide-react'
+import Image from 'next/image'
 
 export default function LoadingScreen() {
   return (
@@ -31,7 +32,7 @@ export default function LoadingScreen() {
         ))}
       </div>
 
-      {/* Main Logo - CIRCULAR VERSION */}
+      {/* Main Logo - CIRCULAR with your logo.png */}
       <motion.div
         initial={{ scale: 0, rotate: -180 }}
         animate={{ scale: 1, rotate: 0 }}
@@ -46,17 +47,23 @@ export default function LoadingScreen() {
             className="absolute -inset-6 sm:-inset-8 rounded-full border-4 border-primary-orange/20"
           />
           
-          {/* Circular Spinning Logo (like profile picture) */}
+          {/* Circular Spinning Logo Container */}
           <div className="relative w-48 h-48 sm:w-64 sm:h-64 rounded-full border-8 border-primary-gold border-t-primary-orange animate-spin-slow">
-            {/* Inner Gradient Circle */}
-            <div className="absolute inset-6 sm:inset-8 rounded-full bg-gradient-to-br from-primary-600 to-primary-purple flex items-center justify-center">
-              {/* Navigation Icon with Pulse */}
+            {/* Inner Circle with your logo */}
+            <div className="absolute inset-6 sm:inset-8 rounded-full bg-gradient-to-br from-primary-600 to-primary-purple flex items-center justify-center overflow-hidden">
               <motion.div
-                animate={{ scale: [1, 1.1, 1] }}
+                animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-primary-orange/20 to-primary-gold/20 flex items-center justify-center"
+                className="relative w-36 h-36 sm:w-48 sm:h-48 rounded-full"
               >
-                <Navigation className="w-16 h-16 sm:w-20 sm:h-20 text-white" />
+                <Image
+                  src="/logo.png"
+                  alt="NjiaSafe Logo"
+                  fill
+                  className="object-contain p-4"
+                  priority
+                  sizes="(max-width: 640px) 144px, 192px"
+                />
               </motion.div>
             </div>
           </div>
@@ -64,7 +71,7 @@ export default function LoadingScreen() {
           {/* Floating Icons Around Circle */}
           {[Shield, Car, MapPin, Users, Zap, Globe].map((Icon, index) => {
             const angle = (index * 60) * (Math.PI / 180)
-            const radius = 140 // Increased radius for better positioning
+            const radius = 140
             const x = radius * Math.cos(angle)
             const y = radius * Math.sin(angle)
             

@@ -4,9 +4,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 
 type Language = 'en' | 'sw'
 
-// Add translations object
+// Complete translations including dashboard terms
 const translations = {
   en: {
+    // Common
     name: 'Name',
     email: 'Email',
     phone: 'Phone',
@@ -15,22 +16,49 @@ const translations = {
     signup: 'Sign Up',
     hasAccount: 'Already have an account?',
     login: 'Log In',
-    welcome: 'Welcome',
+    backToLogin: 'Back to Login',
+    resetPassword: 'Reset Password',
+    sendResetLink: 'Send Reset Link',
+    
+    // Dashboard
     dashboard: 'Dashboard',
-    settings: 'Settings',
+    safety: 'Safety',
+    v2v: 'V2V',
+    analytics: 'Analytics',
+    community: 'Community',
     profile: 'Profile',
+    settings: 'Settings',
+    notifications: 'Notifications',
     logout: 'Logout',
-    save: 'Save',
-    cancel: 'Cancel',
-    delete: 'Delete',
-    edit: 'Edit',
-    create: 'Create',
-    update: 'Update',
-    search: 'Search',
-    filter: 'Filter',
-    // Add more English translations as needed
+    upgrade: 'Upgrade',
+    premium: 'Premium',
+    
+    // Navigation
+    drive: 'Drive',
+    cycle: 'Cycle',
+    pedestrian: 'Walk',
+    mode: 'Mode',
+    
+    // Actions
+    findRoute: 'Find Route',
+    emergencySOS: 'Emergency SOS',
+    quickActions: 'Quick Actions',
+    
+    // Stats
+    distanceToday: 'Distance Today',
+    timeSaved: 'Time Saved',
+    safetyScore: 'Safety Score',
+    v2vConnected: 'V2V Connected',
+    
+    // Messages
+    welcomeBack: 'Welcome back',
+    excellentDriving: 'Excellent driving',
+    enjoyingPremium: 'Enjoying Premium?',
+    upgradeNow: 'Upgrade Now',
+    viewProfile: 'View Profile',
   },
   sw: {
+    // Common
     name: 'Jina',
     email: 'Barua Pepe',
     phone: 'Simu',
@@ -39,28 +67,53 @@ const translations = {
     signup: 'Jisajili',
     hasAccount: 'Tayari una akaunti?',
     login: 'Ingia',
-    welcome: 'Karibu',
+    backToLogin: 'Rudi kwenye Kuingia',
+    resetPassword: 'Weka Upya Nenosiri',
+    sendResetLink: 'Tuma Kiungo cha Kuweka Upya',
+    
+    // Dashboard
     dashboard: 'Dashibodi',
+    safety: 'Usalama',
+    v2v: 'Gari-kwa-Gari',
+    analytics: 'Takwimu',
+    community: 'Jumuiya',
+    profile: 'Wasifu',
     settings: 'Mipangilio',
-    profile: 'Profaili',
+    notifications: 'Arifa',
     logout: 'Ondoka',
-    save: 'Hifadhi',
-    cancel: 'Ghairi',
-    delete: 'Futa',
-    edit: 'Hariri',
-    create: 'Unda',
-    update: 'Sasisha',
-    search: 'Tafuta',
-    filter: 'Chuja',
-    // Add more Swahili translations as needed
+    upgrade: 'Boresha',
+    premium: 'Bora',
+    
+    // Navigation
+    drive: 'Endesha',
+    cycle: 'Baiskeli',
+    pedestrian: 'Tembea',
+    mode: 'Njia',
+    
+    // Actions
+    findRoute: 'Tafuta Njia',
+    emergencySOS: 'Dharura SOS',
+    quickActions: 'Vitendo Vya Haraka',
+    
+    // Stats
+    distanceToday: 'Umbali Leo',
+    timeSaved: 'Muda Uliookoka',
+    safetyScore: 'Alama ya Usalama',
+    v2vConnected: 'Gari Zilizounganishwa',
+    
+    // Messages
+    welcomeBack: 'Karibu tena',
+    excellentDriving: 'Kuendesha bora',
+    enjoyingPremium: 'Unafurahia Bora?',
+    upgradeNow: 'Boresha Sasa',
+    viewProfile: 'Angalia Wasifu',
   }
 }
 
-// Update interface to include t function
 interface LanguageContextType {
   language: Language
   setLanguage: (lang: Language) => void
-  t: (key: string) => string  // Add this
+  t: (key: string) => string
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
@@ -70,7 +123,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const savedLang = localStorage.getItem('njiasafe-language') as Language
-    if (savedLang) {
+    if (savedLang && (savedLang === 'en' || savedLang === 'sw')) {
       setLanguage(savedLang)
     }
   }, [])
@@ -79,21 +132,17 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('njiasafe-language', language)
   }, [language])
 
-  // Add t function
   const t = (key: string): string => {
-    // Try to get translation for current language
     const langTranslations = translations[language]
     if (langTranslations && key in langTranslations) {
       return langTranslations[key as keyof typeof langTranslations]
     }
     
-    // Fallback to English if key not found in current language
     const englishTranslations = translations.en
     if (key in englishTranslations) {
       return englishTranslations[key as keyof typeof englishTranslations]
     }
     
-    // Return key itself if no translation found
     return key
   }
 

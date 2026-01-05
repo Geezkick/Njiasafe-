@@ -25,11 +25,14 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import PremiumLayout from '@/components/layout/PremiumLayout'
 import SafeButton from '@/components/ui/SafeButton'
+import { useAuth } from '@/components/providers/AuthProvider'
+import { toast } from 'sonner'
 
 export default function Dashboard() {
   const [activeMode, setActiveMode] = useState('drive')
   const [notificationCount] = useState(3)
   const router = useRouter()
+  const { logout } = useAuth()
 
   const quickStats = [
     { icon: MapPin, label: 'Distance Today', value: '42.5 km', change: '+12%', color: 'text-blue-400' },
@@ -39,20 +42,22 @@ export default function Dashboard() {
   ]
 
   const quickActions = [
-    { icon: Navigation, label: 'Find Route', action: () => console.log('Find Route') },
+    { icon: Navigation, label: 'Find Route', action: () => router.push('/navigation') },
     { icon: BarChart3, label: 'Analytics', action: () => router.push('/analytics') },
     { icon: Users, label: 'Community', action: () => router.push('/community') },
-    { icon: Settings, label: 'Settings', action: () => router.push('/profile') },
+    { icon: Settings, label: 'Settings', action: () => router.push('/settings') },
   ]
 
   const handleLogout = () => {
-    console.log('Logout clicked')
-    // Add actual logout logic here
+    logout()
+    toast.success('Logged out successfully')
+    router.push('/')
   }
 
   const handleUpgrade = () => {
     console.log('Upgrade clicked')
     router.push('/subscription')
+    toast.info('Redirecting to subscription page')
   }
 
   const handleProfile = () => {
@@ -62,18 +67,30 @@ export default function Dashboard() {
 
   const handleSOS = () => {
     console.log('SOS Emergency clicked!')
-    alert('SOS Emergency Alert Activated! Authorities notified.')
+    toast.error('🚨 EMERGENCY SOS ACTIVATED! Authorities notified.', {
+      duration: 5000,
+      icon: '🚨'
+    })
+    // In real app, this would trigger actual emergency services
   }
 
   const handleServiceAlert = (service: string) => {
     console.log(`${service} alerted`)
-    alert(`${service} has been notified of your emergency.`)
+    toast.warning(`${service} has been notified of your location`, {
+      icon: '📞'
+    })
+  }
+
+  const handleNavigationMode = (mode: string) => {
+    console.log(`Navigation mode changed to: ${mode}`)
+    setActiveMode(mode)
+    toast.info(`Navigation mode set to: ${mode.charAt(0).toUpperCase() + mode.slice(1)}`)
   }
 
   return (
     <PremiumLayout showHeader={true} showFooter={false}>
       <div className="space-y-8">
-        {/* Welcome Header with Upgrade Button */}
+        {/* Welcome Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -149,10 +166,7 @@ export default function Dashboard() {
               ].map((mode) => (
                 <button
                   key={mode.id}
-                  onClick={() => {
-                    console.log(`Navigation mode changed to: ${mode.id}`)
-                    setActiveMode(mode.id)
-                  }}
+                  onClick={() => handleNavigationMode(mode.id)}
                   className={`p-3 sm:p-6 rounded-xl flex flex-col items-center justify-center transition-all ${
                     activeMode === mode.id
                       ? `bg-gradient-to-br ${mode.color} text-white shadow-lg`
@@ -204,7 +218,7 @@ export default function Dashboard() {
                   { label: 'Police', color: 'bg-blue-500/20', icon: '👮' },
                   { label: 'Ambulance', color: 'bg-red-500/20', icon: '🚑' },
                   { label: 'Fire Service', color: 'bg-orange-500/20', icon: '🚒' },
-                  { label: 'Road Rescue', color: 'bg-yellow-500/20', icon: '��️' },
+                  { label: 'Road Rescue', color: 'bg-yellow-500/20', icon: '🛣️' },
                 ].map((service) => (
                   <button
                     key={service.label}
@@ -224,7 +238,7 @@ export default function Dashboard() {
           </motion.div>
         </div>
 
-        {/* Quick Actions */}
+        {/* Quick Actions - NOW FUNCTIONAL */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -276,27 +290,16 @@ export default function Dashboard() {
           </div>
         </motion.div>
 
-        {/* Debug Section */}
-        <div className="p-6 border border-dashed border-yellow-500/50 rounded-2xl bg-yellow-500/10">
-          <h3 className="text-lg font-semibold mb-4 text-yellow-500">Debug Info</h3>
-          <div className="space-y-2">
-            <p className="text-sm">Active Navigation Mode: <span className="font-bold">{activeMode}</span></p>
-            <p className="text-sm">Open Browser Console (F12) to see button click logs</p>
-            <div className="flex gap-2">
-              <button 
-                onClick={() => console.log('Debug button 1 clicked')}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm"
-              >
-                Test Button 1
-              </button>
-              <button 
-                onClick={() => console.log('Debug button 2 clicked')}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg text-sm"
-              >
-                Test Button 2
-              </button>
-            </div>
-          </div>
+        {/* Logout Button */}
+        <div className="text-center">
+          <SafeButton
+            onClick={handleLogout}
+            variant="danger"
+            className="flex items-center gap-2 mx-auto"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </SafeButton>
         </div>
       </div>
     </PremiumLayout>
