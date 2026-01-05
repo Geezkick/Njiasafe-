@@ -1,0 +1,218 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String?
+  password          String
+  phone             String?
+  profilePicture    String?   @default("https://api.dicebear.com/7.x/avataaars/svg?seed=njiasafe")
+  role              Role      @default(USER)
+  mode              Mode      @default(DRIVE)
+  subscription      Subscription @default(FREE)
+  language          Language  @default(ENGLISH)
+  vehicleInfo       String?
+  location          String?
+  isVerified        Boolean   @default(false)
+  lastLogin         DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  alerts            Alert[]
+  payments          Payment[]
+  analytics         Analytics[]
+  routes            Route[]
+  communityPosts    CommunityPost[]
+  notifications     Notification[]
+  sessions          Session[]
+}
+
+model Session {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  token           String   @unique
+  expiresAt       DateTime
+  createdAt       DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+  GOVERNMENT
+}
+
+enum Mode {
+  DRIVE
+  PEDESTRIAN
+  CYCLE
+}
+
+enum Subscription {
+  FREE
+  PREMIUM
+}
+
+enum Language {
+  ENGLISH
+  SWAHILI
+}
+
+model Alert {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  type            AlertType
+  location        String
+  coordinates     String
+  description     String?
+  status          AlertStatus @default(ACTIVE)
+  priority        Priority    @default(MEDIUM)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum AlertType {
+  SOS
+  ACCIDENT
+  TRAFFIC_JAM
+  ROAD_CLOSURE
+  SPEEDING
+  V2V_ALERT
+  POLICE_CHECK
+  AMBULANCE
+  FIRE
+}
+
+enum AlertStatus {
+  ACTIVE
+  RESOLVED
+  CANCELLED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  amount          Float
+  currency        String   @default("KES")
+  method          PaymentMethod
+  transactionId   String   @unique
+  status          PaymentStatus @default(PENDING)
+  subscription    Subscription
+  mpesaCode       String?
+  cardLastFour    String?
+  createdAt       DateTime @default(now())
+}
+
+enum PaymentMethod {
+  MPESA
+  CARD
+  BANK_TRANSFER
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model Analytics {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  dataType        DataType
+  value           Float
+  location        String?
+  timestamp       DateTime @default(now())
+}
+
+enum DataType {
+  SPEED
+  ACCIDENT_RISK
+  TRAFFIC_DENSITY
+  ROUTE_SAFETY
+  FUEL_EFFICIENCY
+  EMERGENCY_RESPONSE_TIME
+  ROAD_CONDITION
+}
+
+model Route {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  startLocation   String
+  endLocation     String
+  waypoints       String[]
+  distance        Float
+  duration        Float
+  safetyScore     Float
+  congestionScore Float
+  isFavorite      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}
+
+model CommunityPost {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  type            PostType
+  content         String
+  location        String?
+  upvotes         Int      @default(0)
+  downvotes       Int      @default(0)
+  comments        Comment[]
+  createdAt       DateTime @default(now())
+}
+
+model Comment {
+  id              String   @id @default(cuid())
+  postId          String
+  post            CommunityPost @relation(fields: [postId], references: [id])
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  content         String
+  createdAt       DateTime @default(now())
+}
+
+enum PostType {
+  ALERT
+  TIP
+  QUESTION
+  EXPERIENCE
+  REVIEW
+}
+
+model Notification {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  type            NotificationType
+  title           String
+  message         String
+  isRead          Boolean  @default(false)
+  metadata        String?
+  createdAt       DateTime @default(now())
+}
+
+enum NotificationType {
+  ALERT
+  PAYMENT
+  SYSTEM
+  COMMUNITY
+  SAFETY
+}
